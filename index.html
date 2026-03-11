@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Done-For-You AI Quiz Builder | Your Web Toolkit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #215E8D;
+            --amber: #F6AD55;
+            --dark: #1A202C;
+            --mid: #4A5568;
+            --light: #718096;
+            --bg: #FAFAFA;
+            --white: #FFFFFF;
+            --amber-light: #FEF3E2;
+            --navy-light: #EBF4FA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            line-height: 1.7;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            background: var(--navy);
+            color: white;
+            padding: 80px 24px 90px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: rgba(246, 173, 85, 0.08);
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+        }
+
+        .hero-inner {
+            max-width: 760px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            background: var(--amber);
+            color: var(--dark);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: 2px;
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.2rem, 5vw, 3.4rem);
+            line-height: 1.15;
+            margin-bottom: 24px;
+            font-weight: 900;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--amber);
+        }
+
+        .hero-sub {
+            font-size: 1.15rem;
+            opacity: 0.88;
+            max-width: 580px;
+            margin: 0 auto 0;
+            font-weight: 300;
+        }
+
+        /* ── PAIN ── */
+        .pain {
+            padding: 72px 24px;
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .pain p {
+            font-size: 1.08rem;
+            color: var(--mid);
+            margin-bottom: 20px;
+        }
+
+        .pain p strong {
+            color: var(--dark);
+        }
+
+        .pain-list {
+            list-style: none;
+            margin: 32px 0;
+        }
+
+        .pain-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            font-size: 1.05rem;
+            color: var(--mid);
+            margin-bottom: 16px;
+            padding: 18px 22px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid var(--amber);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+
+        .pain-list li::before {
+            content: '👉';
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* ── SECTION TITLE ── */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .section-title em {
+            font-style: italic;
+            color: var(--amber);
+        }
+
+        .section-sub {
+            font-size: 1.05rem;
+            color: var(--mid);
+            margin-bottom: 48px;
+        }
+
+        /* ── USE CASES ── */
+        .use-cases {
+            background: var(--navy);
+            padding: 72px 24px;
+            color: white;
+        }
+
+        .use-cases-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .use-cases .section-title {
+            color: white;
+            text-align: center;
+        }
+
+        .use-cases .section-sub {
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 10px;
+            padding: 32px 28px;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--amber);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 18px;
+        }
+
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .card p {
+            font-size: 0.97rem;
+            color: rgba(255,255,255,0.72);
+            line-height: 1.6;
+        }
+
+        /* ── WHAT YOU GET ── */
+        .what-you-get {
+            padding: 80px 24px;
+            max-width: 860px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .deliverables {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-top: 48px;
+        }
+
+        .deliverable {
+            display: grid;
+            grid-template-columns: 64px 1fr;
+            gap: 28px;
+            align-items: start;
+            padding: 32px 0;
+            border-bottom: 1px solid #E8ECF0;
+            text-align: left;
+        }
+
+        .deliverable:last-child {
+            border-bottom: none;
+        }
+
+        .deliverable-num {
+            width: 52px;
+            height: 52px;
+            background: var(--amber);
+            color: var(--dark);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 900;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .deliverable h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .deliverable p {
+            font-size: 1rem;
+            color: var(--mid);
+            line-height: 1.65;
+        }
+
+        /* ── PRICING COMPARISON ── */
+        .pricing-section {
+            background: var(--amber-light);
+            padding: 80px 24px;
+        }
+
+        .pricing-inner {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .pricing-intro {
+            font-size: 1.07rem;
+            color: var(--mid);
+            margin-bottom: 36px;
+            max-width: 640px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            margin-bottom: 32px;
+            font-size: 0.97rem;
+        }
+
+        .comparison-table thead th {
+            background: var(--navy);
+            color: white;
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.03em;
+        }
+
+        .comparison-table thead th:first-child {
+            border-radius: 0;
+        }
+
+        .comparison-table tbody tr:nth-child(even) {
+            background: #F8FAFC;
+        }
+
+        .comparison-table tbody td {
+            padding: 14px 20px;
+            color: var(--mid);
+            border-bottom: 1px solid #EDF2F7;
+        }
+
+        .comparison-table tbody td:first-child {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .comparison-table tfoot td {
+            padding: 18px 20px;
+            background: var(--navy-light);
+            font-weight: 600;
+            color: var(--navy);
+            font-size: 1rem;
+        }
+
+        .highlight-row td {
+            background: #EBF8F0 !important;
+            color: #276749 !important;
+            font-weight: 600 !important;
+        }
+
+        .pricing-callout {
+            background: var(--navy);
+            color: white;
+            border-radius: 10px;
+            padding: 32px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .pricing-callout p {
+            font-size: 1.05rem;
+            opacity: 0.9;
+        }
+
+        .pricing-callout strong {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .price-tag {
+            background: var(--amber);
+            color: var(--dark);
+            border-radius: 8px;
+            padding: 18px 32px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .price-tag .price {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            line-height: 1;
+            display: block;
+        }
+
+        .price-tag .price-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 4px;
+            opacity: 0.8;
+        }
+
+        /* ── WHO IT'S FOR ── */
+        .who-for {
+            padding: 80px 24px;
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .check-list {
+            list-style: none;
+            margin-top: 36px;
+        }
+
+        .check-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            font-size: 1.07rem;
+            color: var(--mid);
+            margin-bottom: 18px;
+            padding: 20px 24px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .check-list li::before {
+            content: '✅';
+            flex-shrink: 0;
+        }
+
+        /* ── HOW IT WORKS ── */
+        .how-it-works {
+            background: var(--navy);
+            padding: 80px 24px;
+            color: white;
+        }
+
+        .how-it-works-inner {
+            max-width: 720px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .how-it-works .section-title {
+            color: white;
+        }
+
+        .how-it-works .section-sub {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            text-align: left;
+        }
+
+        .step {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            padding: 28px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .step:last-child {
+            border-bottom: none;
+        }
+
+        .step-badge {
+            width: 40px;
+            height: 40px;
+            background: var(--amber);
+            color: var(--dark);
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        .step-content h3 {
+            font-size: 1.07rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 6px;
+        }
+
+        .step-content p {
+            font-size: 0.97rem;
+            color: rgba(255,255,255,0.72);
+            line-height: 1.6;
+        }
+
+        /* ── CHECKOUT EMBED ── */
+        .checkout-section {
+            padding: 80px 24px;
+            max-width: 660px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .checkout-box {
+            background: white;
+            border-radius: 12px;
+            padding: 48px 40px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--amber);
+        }
+
+        .checkout-box h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 12px;
+        }
+
+        .checkout-box p {
+            color: var(--mid);
+            margin-bottom: 32px;
+            font-size: 1rem;
+        }
+
+        .pricing-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .price-option {
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 20px 16px;
+            text-align: center;
+        }
+
+        .price-option.featured {
+            border-color: var(--amber);
+            background: var(--amber-light);
+        }
+
+        .price-option .option-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--light);
+            margin-bottom: 6px;
+        }
+
+        .price-option.featured .option-label {
+            color: #B7791F;
+        }
+
+        .price-option .option-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--navy);
+            line-height: 1;
+        }
+
+        .price-option .option-note {
+            font-size: 0.85rem;
+            color: var(--light);
+            margin-top: 4px;
+        }
+
+        .checkout-placeholder {
+            border: 2px dashed #CBD5E0;
+            border-radius: 8px;
+            padding: 40px 24px;
+            color: var(--light);
+            font-size: 0.95rem;
+        }
+
+        .checkout-placeholder strong {
+            display: block;
+            font-size: 1rem;
+            color: var(--mid);
+            margin-bottom: 6px;
+        }
+
+        /* ── FOOTER ── */
+        .footer {
+            background: var(--dark);
+            color: rgba(255,255,255,0.5);
+            padding: 32px 24px;
+            text-align: center;
+            font-size: 0.88rem;
+        }
+
+        .footer a {
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 600px) {
+            .pricing-callout {
+                flex-direction: column;
+                text-align: center;
+            }
+            .price-tag {
+                width: 100%;
+            }
+            .pricing-options {
+                grid-template-columns: 1fr;
+            }
+            .checkout-box {
+                padding: 32px 24px;
+            }
+            .comparison-table {
+                font-size: 0.85rem;
+            }
+            .comparison-table thead th,
+            .comparison-table tbody td,
+            .comparison-table tfoot td {
+                padding: 12px 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-inner">
+            <span class="eyebrow">Done-For-You Service</span>
+            <h1>Stop Paying Quiz Platforms<br><em>Every Single Month</em></h1>
+            <p class="hero-sub">A custom AI-built quiz, hosted on your own website, connected to your CRM — for a one-off price. No subscriptions. No lead caps. No platform lock-in.</p>
+        </div>
+    </section>
+
+    <!-- PAIN -->
+    <section class="pain">
+        <p>You've looked at quiz platforms before. Maybe you even signed up for a free trial, got excited about the possibilities — then saw the pricing page and thought... <strong>is this actually worth paying for every single month?</strong></p>
+
+        <p>And that's before you've even tackled the setup.</p>
+
+        <ul class="pain-list">
+            <li>Each platform has its own logic system you need to learn from scratch</li>
+            <li>The integrations don't quite work the way you expected</li>
+            <li>Three hours deep into building one quiz and you're still not sure how to tag people properly in your CRM</li>
+            <li>Cancel the subscription and your quiz disappears</li>
+            <li>Want to build more quizzes? That'll cost extra on most platforms</li>
+            <li>Getting more leads? You'll need to upgrade your plan — you're being financially penalised for your own growth</li>
+        </ul>
+
+        <p>There's a better way to do this.</p>
+    </section>
+
+    <!-- USE CASES -->
+    <section class="use-cases">
+        <div class="use-cases-inner">
+            <h2 class="section-title">How You Can Use Quizzes</h2>
+            <p class="section-sub">More versatile than most people realise — here are four ways quizzes can work inside your business right now.</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h3>Lead Magnet</h3>
+                    <p>People take your quiz, get personalised results, and land in your email list already segmented. They're warm, interested, and sorted — before you've even spoken to them.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔄</div>
+                    <h3>Re-engagement</h3>
+                    <p>Instead of the same re-engagement email everyone's using, send a quiz instead. More interesting, more likely to get a click, and lets you re-segment based on where people are now.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🚀</div>
+                    <h3>Group Programme Onboarding</h3>
+                    <p>Send new members a quiz to figure out where they actually are. Based on their answers, they get a customised welcome sequence pointing them to exactly the right modules first.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">✨</div>
+                    <h3>Repurpose Existing Content</h3>
+                    <p>Already got a blog post, video training, or PDF guide? We can turn that into a quiz. Your existing expertise, working harder as a lead generation tool.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT YOU GET -->
+    <section class="what-you-get">
+        <h2 class="section-title">What You Get</h2>
+        <p class="section-sub">This isn't another quiz platform eating into your monthly budget. No third-party software. No monthly fees. No integration headaches.</p>
+
+        <div class="deliverables">
+            <div class="deliverable">
+                <div class="deliverable-num">1</div>
+                <div>
+                    <h3>Strategy Call</h3>
+                    <p>We work out what quiz makes sense for your business right now — the one that fits into your existing marketing, supports your current offers, and guides people toward the next logical step. No guessing, no generic templates.</p>
+                </div>
+            </div>
+            <div class="deliverable">
+                <div class="deliverable-num">2</div>
+                <div>
+                    <h3>Your Quiz Built & Connected</h3>
+                    <p>I handle the entire build using AI — the quiz logic, the CRM integration, the email segmentation. You hand me your content, I make it work. The finished quiz lives on your own website or hosted for free on GitHub Pages.</p>
+                </div>
+            </div>
+            <div class="deliverable">
+                <div class="deliverable-num">3</div>
+                <div>
+                    <h3>30-Day Post-Launch Support</h3>
+                    <p>For a month after your quiz goes live, I'm here if something's not firing correctly, if your audience responds differently than expected, or if you spot a better way to segment people based on how they're actually answering.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING COMPARISON -->
+    <section class="pricing-section">
+        <div class="pricing-inner">
+            <h2 class="section-title">Why This Makes Sense Financially</h2>
+            <p class="section-sub">You want to operate your business as lean as possible. Let's look at what the platforms actually cost.</p>
+            <p class="pricing-intro">Quiz platforms charge monthly subscriptions — which means if your quiz is working, those charges keep coming. As you grow, you pay more because you're bringing in more leads. You're being financially penalised for your own success.</p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Platform</th>
+                        <th>Plan</th>
+                        <th>Annual Cost</th>
+                        <th>Limitations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ScoreApp</td>
+                        <td>Starter</td>
+                        <td>£261/yr</td>
+                        <td>100 responses/month, 3 quizzes. No custom domain.</td>
+                    </tr>
+                    <tr>
+                        <td>ScoreApp</td>
+                        <td>Business</td>
+                        <td>£675/yr</td>
+                        <td>1K responses/month. Need this tier for custom domain.</td>
+                    </tr>
+                    <tr>
+                        <td>Interact</td>
+                        <td>Lite</td>
+                        <td>$324/yr</td>
+                        <td>500 leads/month, 5 quizzes. No custom branding.</td>
+                    </tr>
+                    <tr>
+                        <td>Interact</td>
+                        <td>Growth</td>
+                        <td>$636/yr</td>
+                        <td>2K leads/month. Need this tier for your own logo.</td>
+                    </tr>
+                    <tr>
+                        <td>Outgrow</td>
+                        <td>Freelancer</td>
+                        <td>$168/yr</td>
+                        <td>250 leads/month, 5 quizzes. Very limited.</td>
+                    </tr>
+                    <tr>
+                        <td>Outgrow</td>
+                        <td>Business</td>
+                        <td>$7,200/yr</td>
+                        <td>Custom domain requires this tier.</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>Your Web Toolkit DFY</td>
+                        <td>One-off build</td>
+                        <td>£300 once</td>
+                        <td>No lead caps. No quiz limits. No ongoing costs.</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">You pay once. Your quiz lives on your own website, connected to the CRM you already have. No restrictions. No upgrading when you start getting traction.</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </section>
+
+    <!-- WHO IT'S FOR -->
+    <section class="who-for">
+        <h2 class="section-title">Who This Is For</h2>
+        <p class="section-sub" style="margin-bottom: 0;">This works best when the foundations are already in place.</p>
+        <ul class="check-list">
+            <li>You've got existing content, resources, or offers that could work as quizzes — you're just not sure how to make it happen technically</li>
+            <li>You have an established business that can use quizzes effectively and strategically (not just as a gimmick)</li>
+            <li>You want something that actually connects to your CRM and email system — not a standalone tool that creates more admin</li>
+            <li>You'd rather pay once for something you own than subscribe indefinitely to something you don't</li>
+        </ul>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works">
+        <div class="how-it-works-inner">
+            <h2 class="section-title">How This Works</h2>
+            <p class="section-sub">From strategy call to live quiz — here's what the process looks like.</p>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-badge">1</div>
+                    <div class="step-content">
+                        <h3>Strategy call to map out your quiz</h3>
+                        <p>We figure out the right questions, results, and how the quiz connects to your email sequences or programme welcome flow.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-badge">2</div>
+                    <div class="step-content">
+                        <h3>I build and connect everything</h3>
+                        <p>I use AI to build the quiz, then connect it to your CRM with the right tagging and segmentation logic. You don't need to touch the technical side.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-badge">3</div>
+                    <div class="step-content">
+                        <h3>You test it, I refine it</h3>
+                        <p>You go through the quiz as a user would, flag anything that feels off, and I tweak until it's exactly right.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-badge">4</div>
+                    <div class="step-content">
+                        <h3>Your quiz goes live</h3>
+                        <p>Hosted on your website or on GitHub Pages (free), capturing leads and feeding your CRM — with 30 days of support while it beds in.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHECKOUT -->
+    <section class="checkout-section">
+        <div class="checkout-box">
+            <h2>Ready to get started?</h2>
+            <p>Choose the option that fits where you are right now.</p>
+
+            <div class="pricing-options">
+                <div class="price-option">
+                    <div class="option-label">1 Quiz</div>
+                    <div class="option-price">£300</div>
+                    <div class="option-note">One-off payment</div>
+                </div>
+                <div class="price-option featured">
+                    <div class="option-label">2 Quizzes</div>
+                    <div class="option-price">£500</div>
+                    <div class="option-note">Save £100</div>
+                </div>
+            </div>
+
+            <!-- CHECKOUT EMBED PLACEHOLDER -->
+            <div class="checkout-placeholder">
+                <strong>Checkout form goes here</strong>
+                Replace this block with your embedded checkout or booking widget
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2025 Your Web Toolkit | <a href="https://yourwebtoolkit.com/privacy-policy/">Privacy Policy</a> | <a href="https://yourwebtoolkit.com/terms-and-conditions/">Terms & Conditions</a></p>
+    </footer>
+
+</body>
+</html>
